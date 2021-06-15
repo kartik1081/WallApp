@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "297140412476",
+    "firebase_url": "https://wallapp-37856-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "wallapp-37856",
+    "storage_bucket": "wallapp-37856.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:297140412476:android:bdfdbbb6a459c5cb982339",
+        "android_client_info": {
+          "package_name": "com.wall.wallapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "297140412476-qafbnui0qmu3dgvicgcfj5bnhg1pduea.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wall.wallapp",
+            "certificate_hash": "a5111ea567bafdb69fd7b7902f8ced8b6e5c5c35"
+          }
+        },
+        {
+          "client_id": "297140412476-2jqpkk2l92hthve0s89l2ha4q2iilm23.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-sG5LcXZnFwTQ0NBG_jgXqlO9RfCasOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "297140412476-2jqpkk2l92hthve0s89l2ha4q2iilm23.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "297140412476-5v0v52iarka915vdg9euj95bq3motgd7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wall.wallapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
