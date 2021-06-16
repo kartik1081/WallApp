@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:wallapp/pages/wallpaper_view_screen.dart';
@@ -20,6 +21,7 @@ class _ExploreState extends State<Explore> {
     "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
     "https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80",
   ];
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -56,24 +58,29 @@ class _ExploreState extends State<Explore> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            new WallpaperView(image: images[index]),
-                      ),
+                          builder: (context) =>
+                              new WallpaperView(image: images[index]),
+                          fullscreenDialog: true),
                     );
                   },
                   child: new Hero(
                     tag: images[index],
-                    child: new ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                      child: new CachedNetworkImage(
-                        imageUrl: images[index],
-                        placeholder: (context, url) {
-                          return new Center(
-                            child: new CircularProgressIndicator(),
-                          );
-                        },
+                    child: new Card(
+                      elevation: 7.0,
+                      shadowColor: Colors.grey,
+                      semanticContainer: true,
+                      child: new ClipRRect(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                        child: new CachedNetworkImage(
+                          imageUrl: images[index],
+                          placeholder: (context, url) {
+                            return new Center(
+                              child: new CircularProgressIndicator(),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),

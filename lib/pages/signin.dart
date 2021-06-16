@@ -32,7 +32,6 @@ class _SignInState extends State<SignIn> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Color(0xFF00BF6D),
       body: _loading
           ? new Center(
               child: new CircularProgressIndicator(
@@ -78,7 +77,8 @@ class _SignInState extends State<SignIn> {
                                   "Sign In",
                                   style: new TextStyle(
                                       fontSize: 30,
-                                      fontWeight: FontWeight.w500),
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey[850]),
                                 ),
                                 new SizedBox(
                                   height: 50,
@@ -210,7 +210,10 @@ class _SignInState extends State<SignIn> {
                                       overlayColor: MaterialStateProperty.all(
                                           Colors.lightGreen),
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      _fire.signIn(
+                                          context, email.text, password.text);
+                                    },
                                     child: new Text("Sign In"),
                                   ),
                                 ),

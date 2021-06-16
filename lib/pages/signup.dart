@@ -23,7 +23,6 @@ class _SignUpState extends State<SignUp> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Color(0xFF00BF6D),
       body: new SingleChildScrollView(
         child: Container(
           height: height,
@@ -63,7 +62,9 @@ class _SignUpState extends State<SignUp> {
                           new Text(
                             "Sign Up",
                             style: new TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.w500),
+                                fontSize: 30,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey[850]),
                           ),
                           new SizedBox(
                             height: 50,
@@ -212,7 +213,10 @@ class _SignUpState extends State<SignUp> {
                                 overlayColor: MaterialStateProperty.all(
                                     Colors.lightGreen),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                _fire.signUp(context, name.text, email.text,
+                                    password.text);
+                              },
                               child: new Text("Sign Up"),
                             ),
                           ),
