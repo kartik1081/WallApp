@@ -64,49 +64,52 @@ class _WallpaperViewState extends State<WallpaperView> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      new Expanded(
-                        child: new ElevatedButton(
-                          onPressed: () {
-                            _launchURL();
-                          },
-                          child: new Row(
-                            children: [
-                              new Icon(Icons.download),
-                              new Text("Download")
-                            ],
-                          ),
+                      new ElevatedButton(
+                        onPressed: () {
+                          _launchURL();
+                        },
+                        child: new Row(
+                          children: [
+                            new Icon(Icons.download),
+                            new SizedBox(
+                              width: 5,
+                            ),
+                            new Text("Download")
+                          ],
                         ),
                       ),
                       new SizedBox(
-                        width: 5.0,
+                        width: 10.0,
                       ),
-                      new Expanded(
-                        child: new ElevatedButton(
-                          onPressed: () {
-                            _createDynamicLink();
-                          },
-                          child: new Row(
-                            children: [
-                              new Icon(Icons.share),
-                              new Text("Share")
-                            ],
-                          ),
+                      new ElevatedButton(
+                        onPressed: () {
+                          _createDynamicLink();
+                        },
+                        child: new Row(
+                          children: [
+                            new Icon(Icons.share),
+                            new SizedBox(
+                              width: 5,
+                            ),
+                            new Text("Share")
+                          ],
                         ),
                       ),
                       new SizedBox(
-                        width: 5.0,
+                        width: 10.0,
                       ),
-                      new Expanded(
-                        child: new ElevatedButton(
-                          onPressed: () {
-                            _addToFavorite();
-                          },
-                          child: new Row(
-                            children: [
-                              new Icon(Icons.favorite),
-                              new Text("favorite")
-                            ],
-                          ),
+                      new ElevatedButton(
+                        onPressed: () {
+                          _addToFavorite();
+                        },
+                        child: new Row(
+                          children: [
+                            new Icon(Icons.favorite),
+                            new SizedBox(
+                              width: 5,
+                            ),
+                            new Text("favorite")
+                          ],
                         ),
                       ),
                     ],

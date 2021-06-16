@@ -65,7 +65,8 @@ class _HomePageState extends State<HomePage> {
         ),
         bottomNavigationBar: new Container(
           decoration: new BoxDecoration(
-            color: Colors.white,
+            backgroundBlendMode: BlendMode.darken,
+            color: Colors.transparent,
             boxShadow: [
               new BoxShadow(
                 blurRadius: 20,
@@ -78,8 +79,8 @@ class _HomePageState extends State<HomePage> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
               child: new GNav(
-                rippleColor: Colors.grey[300]!,
-                hoverColor: Colors.grey[100]!,
+                rippleColor: secondaryColor,
+                hoverColor: secondaryColor,
                 gap: 8,
                 onTabChange: (value) {
                   setState(() {
@@ -87,13 +88,13 @@ class _HomePageState extends State<HomePage> {
                   });
                 },
                 selectedIndex: _index,
-                activeColor: Colors.black,
+                activeColor: Colors.white,
                 iconSize: 24,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 13),
                 duration: Duration(milliseconds: 400),
-                tabBackgroundColor: Colors.grey[400]!,
-                color: Colors.black,
+                tabBackgroundColor: primaryColor,
+                color: Colors.white,
                 tabs: [
                   GButton(
                     icon: LineIcons.search,

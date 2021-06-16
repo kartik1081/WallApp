@@ -48,6 +48,7 @@ class _FavoriteState extends State<Favorite> {
                   color: Colors.grey),
             ),
           ),
+          // ignore: unnecessary_null_comparison
           if (_getUser() != null) ...[
             new StreamBuilder<dynamic>(
               stream: _firestore
