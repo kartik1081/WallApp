@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:wallapp/config/config.dart';
 import 'package:wallapp/pages/explore.dart';
@@ -15,12 +14,20 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Fire _fire = Fire();
+  PageController controller = PageController();
+  int _index = 0;
+  List pages = [
+    new Explore(),
+    new Favorite(),
+    new Profile(),
+  ];
   @override
   Widget build(BuildContext context) {
     return new DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0,
           backgroundColor: Colors.transparent,
           centerTitle: true,
           title: new Row(
@@ -44,12 +51,17 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        body: new TabBarView(
-          children: [
-            new Explore(),
-            new Favorite(),
-            new Profile(),
-          ],
+        body: new PageView.builder(
+          controller: controller,
+          onPageChanged: (value) {
+            setState(() {
+              _index = value;
+            });
+          },
+          itemCount: 3,
+          itemBuilder: (context, index) {
+            return pages[index];
+          },
         ),
         bottomNavigationBar: new Container(
           decoration: new BoxDecoration(
@@ -69,6 +81,12 @@ class _HomePageState extends State<HomePage> {
                 rippleColor: Colors.grey[300]!,
                 hoverColor: Colors.grey[100]!,
                 gap: 8,
+                onTabChange: (value) {
+                  setState(() {
+                    _index = value;
+                  });
+                },
+                selectedIndex: _index,
                 activeColor: Colors.black,
                 iconSize: 24,
                 padding:

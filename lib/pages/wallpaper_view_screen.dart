@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
@@ -59,39 +58,55 @@ class _WallpaperViewState extends State<WallpaperView> {
                   ),
                 ),
                 new Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
                   margin: const EdgeInsets.only(top: 20),
-                  child: new Wrap(
-                    runSpacing: 10,
-                    spacing: 10,
+                  child: new Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      new ElevatedButton(
-                        onPressed: () {
-                          _launchURL();
-                        },
-                        child: new Row(
-                          children: [
-                            new Icon(Icons.download),
-                            new Text("Download")
-                          ],
+                      new Expanded(
+                        child: new ElevatedButton(
+                          onPressed: () {
+                            _launchURL();
+                          },
+                          child: new Row(
+                            children: [
+                              new Icon(Icons.download),
+                              new Text("Download")
+                            ],
+                          ),
                         ),
                       ),
-                      new ElevatedButton(
-                        onPressed: () {
-                          _createDynamicLink();
-                        },
-                        child: new Row(
-                          children: [new Icon(Icons.share), new Text("Share")],
+                      new SizedBox(
+                        width: 5.0,
+                      ),
+                      new Expanded(
+                        child: new ElevatedButton(
+                          onPressed: () {
+                            _createDynamicLink();
+                          },
+                          child: new Row(
+                            children: [
+                              new Icon(Icons.share),
+                              new Text("Share")
+                            ],
+                          ),
                         ),
                       ),
-                      new ElevatedButton(
-                        onPressed: () {
-                          // _addToFavorite();
-                        },
-                        child: new Row(
-                          children: [
-                            new Icon(Icons.favorite),
-                            new Text("favorite")
-                          ],
+                      new SizedBox(
+                        width: 5.0,
+                      ),
+                      new Expanded(
+                        child: new ElevatedButton(
+                          onPressed: () {
+                            _addToFavorite();
+                          },
+                          child: new Row(
+                            children: [
+                              new Icon(Icons.favorite),
+                              new Text("favorite")
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -114,29 +129,37 @@ class _WallpaperViewState extends State<WallpaperView> {
     } catch (e) {}
   }
 
-  // void _addToFavorite() async {
-  //   String user = _auth.currentUser!.uid;
-  //   _firestore.collection("Users").doc("$user").collection("Favorites").doc(
-  //         widget.dataSnapshot.value.setData(
-  //           {widget.dataSnapshot.value},
-  //         ),
-  //       );
-  // }
+  void _addToFavorite() async {
+    try {
+      String user = _auth.currentUser!.uid;
+      _firestore.collection("Users").doc("$user").collection("Favorites").add({
+        "url": widget.image,
+        "time": DateTime.now(),
+        "uploadBy": _auth.currentUser!.uid,
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   void _createDynamicLink() async {
-    DynamicLinkParameters dynamicLinkParameters = DynamicLinkParameters(
-      uriPrefix: "https://wall10app81.page.link",
-      link: Uri.parse(widget.image),
-      socialMetaTagParameters: SocialMetaTagParameters(
-        title: "WallApp",
-        description: "For cool wallpaper",
-        imageUrl: Uri.parse(widget.image),
-      ),
-      androidParameters:
-          AndroidParameters(packageName: "com.wall.wallapp", minimumVersion: 0),
-    );
-    Uri uri = await dynamicLinkParameters.buildUrl();
-    String url = uri.toString();
-    Share.share(url);
+    try {
+      DynamicLinkParameters dynamicLinkParameters = DynamicLinkParameters(
+        uriPrefix: "https://wall10app81.page.link",
+        link: Uri.parse(widget.image),
+        socialMetaTagParameters: SocialMetaTagParameters(
+          title: "WallApp",
+          description: "For cool wallpaper",
+          imageUrl: Uri.parse(widget.image),
+        ),
+        androidParameters: AndroidParameters(
+            packageName: "com.wall.wallapp", minimumVersion: 0),
+      );
+      Uri uri = await dynamicLinkParameters.buildUrl();
+      String url = uri.toString();
+      Share.share(url);
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

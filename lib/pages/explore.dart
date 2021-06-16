@@ -23,11 +23,11 @@ class _ExploreState extends State<Explore> {
         child: new Column(
           children: [
             new SizedBox(
-              height: 20,
+              height: 5,
             ),
             new Container(
               alignment: Alignment.topLeft,
-              margin: const EdgeInsets.only(top: 5, left: 20, bottom: 5),
+              margin: const EdgeInsets.only(top: 0, left: 20, bottom: 5),
               child: new Text(
                 "Explore",
                 style: new TextStyle(

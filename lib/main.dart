@@ -34,10 +34,8 @@ class _MyAppState extends State<MyApp> {
   void initDynamicLinks() async {
     FirebaseDynamicLinks.instance.onLink(
       onSuccess: (linkData) async {
-        final Uri deepLink = linkData!.link;
-        if (deepLink != null) {
-          print(deepLink);
-        }
+        // ignore: unnecessary_statements
+        linkData!.link;
       },
       onError: (error) async {
         print("onLinkError");

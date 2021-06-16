@@ -36,6 +36,7 @@ class _AddWallpaperState extends State<AddWallpaper> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
+        elevation: 0,
         backgroundColor: Colors.transparent,
         title: new Text("Add Wallpaper"),
       ),
