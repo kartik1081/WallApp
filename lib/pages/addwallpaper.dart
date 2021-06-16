@@ -80,6 +80,13 @@ class _AddWallpaperState extends State<AddWallpaper> {
                   child: new Text("Save"),
                 ),
               ),
+              new SizedBox(
+                height: 20,
+              ),
+              if (isUploading) ...[new Text("Photo is Uploading...")],
+              if (isCompletedUploading) ...[
+                new Text("Photo uploading Completed.")
+              ],
             ],
           ),
         ),
@@ -88,73 +95,80 @@ class _AddWallpaperState extends State<AddWallpaper> {
   }
 
   Future getImage() async {
-    final pickedFile = await ImagePicker()
-        .getImage(source: ImageSource.gallery, imageQuality: 30);
+    try {
+      final pickedFile = await ImagePicker()
+          .getImage(source: ImageSource.gallery, imageQuality: 30);
 
-    setState(() {
-      _image = File(pickedFile!.path);
-      image = !image;
-    });
+      setState(() {
+        _image = File(pickedFile!.path);
+        image = !image;
+      });
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   void uploadWallpaper() async {
-    // ignore: unnecessary_null_comparison
-    if (_image != null) {
-      String path = p.basename(_image.path);
-      _storage
-          .ref()
-          .child("Wallpapers")
-          .child("${_auth.currentUser!.uid}")
-          .child("$path")
-          .putFile(_image)
-          .then((e) {
-        if (e.state == TaskState.running) {
-          setState(() {
-            isUploading = true;
-          });
-        }
-        if (e.state == TaskState.success) {
-          setState(() {
-            isCompletedUploading = true;
-            isUploading = false;
-          });
-          e.ref.getDownloadURL().then((value) async {
-            print("Start");
-            await _firestore.collection("Wallpaper").add({
-              "uid": value,
-              "time": DateTime.now(),
-              "uploadBy": _auth.currentUser!.uid
+    try {
+      // ignore: unnecessary_null_comparison
+      if (_image == null) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              shape: new RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
+              ),
+              title: new Text("Error"),
+              content: new Text("Select image to upload..."),
+              actions: [
+                new InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: new Container(
+                    child: new Text("Ok"),
+                  ),
+                )
+              ],
+            );
+          },
+        );
+      } else {
+        String path = p.basename(_image.path);
+        _storage
+            .ref()
+            .child("Wallpapers")
+            .child("${_auth.currentUser!.uid}")
+            .child("$path")
+            .putFile(_image)
+            .then((e) {
+          if (e.state == TaskState.running) {
+            setState(() {
+              isUploading = true;
             });
-            print("end");
-            Navigator.pop(context);
-          });
-        }
-      });
+          }
+          if (e.state == TaskState.success) {
+            e.ref.getDownloadURL().then((value) async {
+              print("Start");
+              await _firestore.collection("Wallpaper").add({
+                "url": value,
+                "time": DateTime.now(),
+                "uploadBy": _auth.currentUser!.uid,
+              });
 
-      Navigator.pop(context);
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: new RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18),
-            ),
-            title: new Text("Error"),
-            content: new Text("Select image to upload..."),
-            actions: [
-              new InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: new Container(
-                  child: new Text("Ok"),
-                ),
-              )
-            ],
-          );
-        },
-      );
+              print("end");
+            });
+          }
+        });
+        setState(() {
+          isUploading = false;
+          isCompletedUploading = true;
+        });
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
 }

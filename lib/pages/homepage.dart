@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icon.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:wallapp/config/config.dart';
 import 'package:wallapp/pages/explore.dart';
 import 'package:wallapp/pages/favorite.dart';
 import 'package:wallapp/pages/profile.dart';
 import 'package:wallapp/services/fire.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -42,22 +45,54 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         body: new TabBarView(
-            children: [new Explore(), new Favorite(), new Profile()]),
-        bottomNavigationBar: new TabBar(
-          tabs: [
-            Tab(icon: new Icon(Icons.search)),
-            Tab(
-              icon: new Icon(Icons.favorite_outline),
-            ),
-            Tab(
-              icon: new Icon(Icons.person_outline),
-            ),
+          children: [
+            new Explore(),
+            new Favorite(),
+            new Profile(),
           ],
-          labelColor: Colors.white,
-          unselectedLabelColor: primaryColor,
-          indicatorSize: TabBarIndicatorSize.label,
-          indicatorPadding: EdgeInsets.all(5.0),
-          indicatorColor: secondaryColor,
+        ),
+        bottomNavigationBar: new Container(
+          decoration: new BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              new BoxShadow(
+                blurRadius: 20,
+                color: Colors.black.withOpacity(0.1),
+              ),
+            ],
+          ),
+          child: new SafeArea(
+            child: new Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
+              child: new GNav(
+                rippleColor: Colors.grey[300]!,
+                hoverColor: Colors.grey[100]!,
+                gap: 8,
+                activeColor: Colors.black,
+                iconSize: 24,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 13),
+                duration: Duration(milliseconds: 400),
+                tabBackgroundColor: Colors.grey[400]!,
+                color: Colors.black,
+                tabs: [
+                  GButton(
+                    icon: LineIcons.search,
+                    text: "Explore",
+                  ),
+                  GButton(
+                    icon: LineIcons.heart,
+                    text: "Favorite",
+                  ),
+                  GButton(
+                    icon: LineIcons.user,
+                    text: "Profile",
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );

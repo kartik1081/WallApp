@@ -1,5 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
+import 'package:share/share.dart';
 import 'package:wallapp/config/config.dart';
 
 class WallpaperView extends StatefulWidget {
@@ -11,6 +17,9 @@ class WallpaperView extends StatefulWidget {
 }
 
 class _WallpaperViewState extends State<WallpaperView> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,21 +45,56 @@ class _WallpaperViewState extends State<WallpaperView> {
             width: MediaQuery.of(context).size.width,
             child: new Column(
               children: [
-                new Card(
-                  shadowColor: Colors.grey,
-                  elevation: 7.0,
-                  child: new Container(
-                    child: new Hero(
-                      tag: widget.image,
-                      child: new CachedNetworkImage(
-                        imageUrl: widget.image,
-                        placeholder: (context, url) {
-                          return new Center(
-                            child: new CircularProgressIndicator(),
-                          );
-                        },
-                      ),
+                new Container(
+                  child: new Hero(
+                    tag: widget.image,
+                    child: new CachedNetworkImage(
+                      imageUrl: widget.image,
+                      placeholder: (context, url) {
+                        return new Center(
+                          child: new CircularProgressIndicator(),
+                        );
+                      },
                     ),
+                  ),
+                ),
+                new Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  child: new Wrap(
+                    runSpacing: 10,
+                    spacing: 10,
+                    children: [
+                      new ElevatedButton(
+                        onPressed: () {
+                          _launchURL();
+                        },
+                        child: new Row(
+                          children: [
+                            new Icon(Icons.download),
+                            new Text("Download")
+                          ],
+                        ),
+                      ),
+                      new ElevatedButton(
+                        onPressed: () {
+                          _createDynamicLink();
+                        },
+                        child: new Row(
+                          children: [new Icon(Icons.share), new Text("Share")],
+                        ),
+                      ),
+                      new ElevatedButton(
+                        onPressed: () {
+                          // _addToFavorite();
+                        },
+                        child: new Row(
+                          children: [
+                            new Icon(Icons.favorite),
+                            new Text("favorite")
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 )
               ],
@@ -59,5 +103,40 @@ class _WallpaperViewState extends State<WallpaperView> {
         ),
       ),
     );
+  }
+
+  void _launchURL() async {
+    try {
+      await launch(
+        widget.image,
+        customTabsOption: CustomTabsOption(toolbarColor: primaryColor),
+      );
+    } catch (e) {}
+  }
+
+  // void _addToFavorite() async {
+  //   String user = _auth.currentUser!.uid;
+  //   _firestore.collection("Users").doc("$user").collection("Favorites").doc(
+  //         widget.dataSnapshot.value.setData(
+  //           {widget.dataSnapshot.value},
+  //         ),
+  //       );
+  // }
+
+  void _createDynamicLink() async {
+    DynamicLinkParameters dynamicLinkParameters = DynamicLinkParameters(
+      uriPrefix: "https://wall10app81.page.link",
+      link: Uri.parse(widget.image),
+      socialMetaTagParameters: SocialMetaTagParameters(
+        title: "WallApp",
+        description: "For cool wallpaper",
+        imageUrl: Uri.parse(widget.image),
+      ),
+      androidParameters:
+          AndroidParameters(packageName: "com.wall.wallapp", minimumVersion: 0),
+    );
+    Uri uri = await dynamicLinkParameters.buildUrl();
+    String url = uri.toString();
+    Share.share(url);
   }
 }
