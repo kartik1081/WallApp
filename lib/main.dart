@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wallapp/config/config.dart';
 import 'package:wallapp/pages/signin.dart';
+import 'package:wallapp/pages/splash.dart';
 
 import 'pages/homepage.dart';
 
@@ -48,25 +49,16 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flut',
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-            textTheme: GoogleFonts.kanitTextTheme(Theme.of(context).textTheme)),
-        textTheme: GoogleFonts.kanitTextTheme(Theme.of(context).textTheme),
-        primaryColor: primaryColor,
-        brightness: Brightness.dark,
-      ),
-      home: new StreamBuilder(
-        stream: _auth.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return new HomePage();
-          } else {
-            return new SignIn();
-          }
-        },
-      ),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Flut',
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(
+              textTheme:
+                  GoogleFonts.kanitTextTheme(Theme.of(context).textTheme)),
+          textTheme: GoogleFonts.kanitTextTheme(Theme.of(context).textTheme),
+          primaryColor: primaryColor,
+          brightness: Brightness.dark,
+        ),
+        home: new Splash());
   }
 }

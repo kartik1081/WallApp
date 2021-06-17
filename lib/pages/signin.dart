@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:wallapp/config/config.dart';
 import 'package:wallapp/services/fire.dart';
 
@@ -33,10 +34,9 @@ class _SignInState extends State<SignIn> {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: _loading
-          ? new Center(
-              child: new CircularProgressIndicator(
-                color: secondaryColor,
-              ),
+          ? new SpinKitChasingDots(
+              color: primaryColor,
+              size: 50,
             )
           : new SingleChildScrollView(
               child: new Container(
@@ -211,6 +211,9 @@ class _SignInState extends State<SignIn> {
                                           Colors.lightGreen),
                                     ),
                                     onPressed: () {
+                                      setState(() {
+                                        _loading = true;
+                                      });
                                       _fire.signIn(
                                           context, email.text, password.text);
                                     },
@@ -237,6 +240,9 @@ class _SignInState extends State<SignIn> {
                                                 MaterialStateProperty.all(7.0),
                                           ),
                                           onPressed: () {
+                                            setState(() {
+                                              _loading = true;
+                                            });
                                             _fire.googleSignIn(context);
                                           },
                                           child: new Row(

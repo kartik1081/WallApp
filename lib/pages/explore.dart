@@ -90,12 +90,11 @@ class _ExploreState extends State<Explore> {
                       );
                     },
                   );
-                } else {
-                  return SpinKitChasingDots(
-                    color: primaryColor,
-                    size: 50,
-                  );
                 }
+                return SpinKitChasingDots(
+                  color: primaryColor,
+                  size: 50,
+                );
               },
             ),
             new SizedBox(
