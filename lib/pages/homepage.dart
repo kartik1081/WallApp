@@ -85,6 +85,7 @@ class _HomePageState extends State<HomePage> {
                 onTabChange: (value) {
                   setState(() {
                     _index = value;
+                    controller.jumpToPage(value);
                   });
                 },
                 selectedIndex: _index,

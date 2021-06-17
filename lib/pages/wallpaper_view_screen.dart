@@ -138,7 +138,6 @@ class _WallpaperViewState extends State<WallpaperView> {
       _firestore.collection("Users").doc("$user").collection("Favorites").add({
         "url": widget.image,
         "time": DateTime.now(),
-        "uploadBy": _auth.currentUser!.uid,
       });
     } catch (e) {
       print(e.toString());

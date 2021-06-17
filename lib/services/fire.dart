@@ -46,23 +46,29 @@ class Fire {
   Future signUp(
       BuildContext context, String name, String email, String password) async {
     try {
-      await _auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) {
-        _firestore.collection("Users").doc(value.user!.uid).set({
-          "name": name,
-          "email": email,
-          "password": password,
-          "lastSignIn": DateTime.now()
+      if (email.endsWith("@gmail.com")) {
+        await _auth
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .then((value) {
+          _firestore.collection("Users").doc(value.user!.uid).set({
+            "name": name,
+            "email": email,
+            "password": password,
+            "lastSignIn": DateTime.now(),
+          });
+        }).whenComplete(() {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => new HomePage(),
+            ),
+          );
         });
-      }).whenComplete(() {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => new HomePage(),
-          ),
-        );
-      });
+      } else {
+        name = '';
+        email = '';
+        password = '';
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');

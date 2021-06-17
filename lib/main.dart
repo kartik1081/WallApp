@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:wallapp/config/config.dart';
 import 'package:wallapp/pages/signin.dart';
 
@@ -50,6 +51,9 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Flut',
       theme: ThemeData(
+        appBarTheme: AppBarTheme(
+            textTheme: GoogleFonts.kanitTextTheme(Theme.of(context).textTheme)),
+        textTheme: GoogleFonts.kanitTextTheme(Theme.of(context).textTheme),
         primaryColor: primaryColor,
         brightness: Brightness.dark,
       ),

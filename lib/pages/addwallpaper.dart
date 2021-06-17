@@ -47,8 +47,9 @@ class _AddWallpaperState extends State<AddWallpaper> {
             children: [
               image
                   ? new Container(
-                      height: 220,
+                      width: MediaQuery.of(context).size.width,
                       child: new Image(
+                        fit: BoxFit.fitWidth,
                         image: FileImage(_image),
                       ),
                     )

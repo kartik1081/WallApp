@@ -18,15 +18,6 @@ class Favorite extends StatefulWidget {
 class _FavoriteState extends State<Favorite> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  late String user;
-
-  Future<String> _getUser() async {
-    var u = _auth.currentUser!.uid;
-    setState(() {
-      user = u;
-    });
-    return user;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +26,11 @@ class _FavoriteState extends State<Favorite> {
       child: new Column(
         children: [
           new SizedBox(
-            height: 20,
+            height: 5,
           ),
           new Container(
             alignment: Alignment.topLeft,
-            margin: const EdgeInsets.only(top: 5, left: 20, bottom: 5),
+            margin: const EdgeInsets.only(top: 0, left: 20, bottom: 5),
             child: new Text(
               "Favorite",
               style: new TextStyle(
@@ -49,11 +40,11 @@ class _FavoriteState extends State<Favorite> {
             ),
           ),
           // ignore: unnecessary_null_comparison
-          if (_getUser() != null) ...[
+          if (_auth.currentUser != null) ...[
             new StreamBuilder<dynamic>(
               stream: _firestore
                   .collection("Users")
-                  .doc("$_getUser()")
+                  .doc("${_auth.currentUser!.uid}")
                   .collection("Favorites")
                   .orderBy("time", descending: true)
                   .snapshots(),
@@ -64,8 +55,8 @@ class _FavoriteState extends State<Favorite> {
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: snapshot.data.docs.length,
-                    mainAxisSpacing: 20,
-                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     staggeredTileBuilder: (int i) => StaggeredTile.fit(1),
                     itemBuilder: (BuildContext context, int index) {
@@ -80,20 +71,23 @@ class _FavoriteState extends State<Favorite> {
                           );
                         },
                         child: new Hero(
-                          tag: snapshot.data.docs[index].data["url"],
+                          tag: snapshot.data.docs[index]["url"],
                           child: new Card(
                             elevation: 7.0,
-                            shadowColor: Colors.grey,
+                            shadowColor: Colors.black,
                             semanticContainer: true,
                             child: new ClipRRect(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(10),
                               ),
                               child: new CachedNetworkImage(
-                                imageUrl: snapshot.data.docs[index].data["url"],
+                                imageUrl: snapshot.data.docs[index]["url"],
                                 placeholder: (context, url) {
-                                  return new Center(
-                                    child: new CircularProgressIndicator(),
+                                  return new Container(
+                                    height: 100,
+                                    child: new Center(
+                                      child: new CircularProgressIndicator(),
+                                    ),
                                   );
                                 },
                               ),

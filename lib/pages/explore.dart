@@ -76,8 +76,11 @@ class _ExploreState extends State<Explore> {
                               child: new CachedNetworkImage(
                                 imageUrl: snapshot.data.docs[index]["url"],
                                 placeholder: (context, url) {
-                                  return new Center(
-                                    child: new CircularProgressIndicator(),
+                                  return new Container(
+                                    height: 100,
+                                    child: new Center(
+                                      child: new CircularProgressIndicator(),
+                                    ),
                                   );
                                 },
                               ),
