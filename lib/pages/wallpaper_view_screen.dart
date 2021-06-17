@@ -40,7 +40,7 @@ class _WallpaperViewState extends State<WallpaperView> {
       body: new SafeArea(
         child: new SingleChildScrollView(
           child: new Container(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 0),
             width: MediaQuery.of(context).size.width,
             child: new Column(
               children: [
@@ -49,6 +49,8 @@ class _WallpaperViewState extends State<WallpaperView> {
                     tag: widget.image,
                     child: new CachedNetworkImage(
                       imageUrl: widget.image,
+                      width: MediaQuery.of(context).size.width,
+                      fit: BoxFit.fitWidth,
                       placeholder: (context, url) {
                         return new Center(
                           child: new CircularProgressIndicator(),

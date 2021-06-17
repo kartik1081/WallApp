@@ -61,8 +61,9 @@ class _SplashState extends State<Splash> {
             ),
             new SpinKitCircle(
               color: primaryColor,
-              size: 30,
+              size: 40,
             ),
+            new Text("Loading"),
             new SizedBox(
               height: 30,
             ),

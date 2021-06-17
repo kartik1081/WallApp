@@ -78,12 +78,12 @@ class _ProfileState extends State<Profile> {
                                                   ? new Image(
                                                       image: AssetImage(
                                                           "assets/avatar.png"),
-                                                      height: 65,
-                                                      width: 65,
+                                                      height: 75,
+                                                      width: 75,
                                                     )
                                                   : new CachedNetworkImage(
-                                                      height: 65,
-                                                      width: 65,
+                                                      height: 75,
+                                                      width: 75,
                                                       fit: BoxFit.cover,
                                                       imageUrl:
                                                           data["profilePic"],

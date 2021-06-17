@@ -93,6 +93,8 @@ class _SignInState extends State<SignIn> {
                                           MainAxisAlignment.center,
                                       children: [
                                         new TextFormField(
+                                          keyboardType:
+                                              TextInputType.emailAddress,
                                           validator: (value) {
                                             if (value == null ||
                                                 value.isEmpty) {
@@ -133,6 +135,8 @@ class _SignInState extends State<SignIn> {
                                           height: 10.0,
                                         ),
                                         new TextFormField(
+                                          keyboardType:
+                                              TextInputType.visiblePassword,
                                           validator: (value) {
                                             if (value == null ||
                                                 value.isEmpty) {
