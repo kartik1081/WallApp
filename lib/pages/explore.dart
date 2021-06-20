@@ -73,16 +73,10 @@ class _ExploreState extends State<Explore> {
                               borderRadius: BorderRadius.all(
                                 Radius.circular(10),
                               ),
-                              child: new CachedNetworkImage(
-                                imageUrl: snapshot.data.docs[index]["url"],
-                                placeholder: (context, url) {
-                                  return new Container(
-                                    height: 100,
-                                    child: new Center(
-                                      child: new CircularProgressIndicator(),
-                                    ),
-                                  );
-                                },
+                              child: new Image(
+                                image: new NetworkImage(
+                                  snapshot.data.docs[index]["url"],
+                                ),
                               ),
                             ),
                           ),
